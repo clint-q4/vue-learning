@@ -13,29 +13,33 @@
             <form method="post" action="">
                 <div>
                     <label for="name">Name: </label>
-                    <input type="text" id="name" name="name">
+                    <input v-model="deckName" type="text" id="name" name="name"> ({{deckName.length}} characters)
                 </div>
 
                 <div>
                     <label for="description">Description: </label>
-                    <textarea id="description" name="description"></textarea>
+                    <textarea v-model="deckDescription" id="description" name="description"></textarea> ({{200 - deckDescription.length}} left)
                 </div>
 
                 <div class="options">
                     <div>
-                        <input type="checkbox" id="reverse" value="reverse">
+                        <input v-model="options" type="checkbox" id="reverse" value="reverse">
                         <label for="reverse">Include reverse cards</label>
                     </div>
 
                     <div>
-                        <input type="checkbox" id="time_limit" value="time_limit">
+                        <input v-model="options" type="checkbox" id="time_limit" value="time_limit">
                         <label for="time_limit">Use time limit</label>
                     </div>
 
                     <div>
-                        <input type="checkbox" id="reminders" value="reminders">
+                        <input v-model="options" type="checkbox" id="reminders" value="reminders">
                         <label for="reminders">Enable reminders</label>
                     </div>
+                </div>
+
+                <div>
+                    Selected Options: <strong>{{options}}</strong>
                 </div>
 
                 <button type="submit">Create</button>
@@ -48,7 +52,8 @@
                 data() {
                     return {
                         deckName: 'Vue.js Fundamentals',
-                        deckDescription: 'Core concepts and directives for working with Vue.js'
+                        deckDescription: 'Core concepts and directives for working with Vue.js',
+                        options: []
                     };
                 }
             };

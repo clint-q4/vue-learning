@@ -9,9 +9,15 @@
         <div id="app">
             <h1 v-text="deckName"></h1>
 
-            <div @click="flipped = !flipped" class="card">
+            <div @click="flipped = !flipped" :class="{again: isRepeat}" class="card">
                 <h2 v-if="!flipped" v-text="front"></h2>
-                <div v-else v-html="back"></div>
+                <div v-else>
+                    <div v-html="back"></div>
+                    <div class="score">
+                        <button @click.stop="gotIt">Got it</button>
+                        <button @click.stop="again">Again</button>
+                    </div>
+                </div>
             </div>
 
             <div class="navigation">
@@ -39,9 +45,25 @@
                 methods: {
                     move(change) {
                         if (this.cards[this.index + change]) {
-                            this.flipped = false;
                             this.index += change;
+                        } else {
+                            this.index = change == 1 ? 0 : this.cards.length - 1;
                         }
+                        this.flipped = false;
+                    },
+                    gotIt() {
+                        if(this.cards.length === 1) {
+                            return alert('Well Done');
+                        }
+                        this.cards.splice(this.index, 1);
+                        if(! this.cards[this.index]) {
+                            this.index = 0;
+                        }
+                        this.flipped = false;
+                    },
+                    again() {
+                        this.cards[this.index].isRepeat = true;
+                        this.move(1);
                     }
                 },
                 computed: {
@@ -50,6 +72,9 @@
                     },
                     back() {
                         return this.cards[this.index].back;
+                    },
+                    isRepeat() {
+                        return this.cards[this.index].isRepeat;
                     }
                 }
             };

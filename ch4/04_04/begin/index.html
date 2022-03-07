@@ -26,7 +26,10 @@
                 <button @click="move(1)" type="button">&#8594;</button>
             </div>
 
-            <read-more :url="readMoreUrl"></read-more>
+            <read-more :url="readMoreUrl">
+                {{ readMoreUrl }}
+                <template v-slot:copyright><p>&copy; 2022 Flashcard App</p></template>
+            </read-more>
         </div>
 
         <script src="data.js"></script>
@@ -82,7 +85,7 @@
             const app = Vue.createApp(FlashCardApp);            
 
             app.component('read-more', {
-                template: '<a :href="url">Read more</a>',
+                template: '<a :href="url"><slot>Read More</slot></a><slot name="copyright"></slot>',
                 name: 'ReadMore',
                 props: ['url']
             });
